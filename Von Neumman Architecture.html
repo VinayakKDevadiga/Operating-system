@@ -47,3 +47,116 @@ Video: https://youtu.be/j8NnE1YeSN0?si=UPmaLCIEINOMIK6k
 → Time limits
 
 When a higher priority process needs to run due to an interrupt or system call, the operating system temporarily stops the currently running process. Before stopping it, the OS saves all the necessary information of the current process into its PCB. This includes register values, program counter, and other execution details. After saving this context, the OS switches to the higher priority process and starts its execution. Once that process finishes or its time slice ends, the OS uses the stored PCB information of the suspended process, restores its context, and resumes its execution from where it was stopped.
+
+
+
+CPU scheduling:
+  It is the basis for multiprogrammed operating systems.
+---
+
+# **📝 Multithreading vs Multiprocessing — Teacher & Pencils Analogy**
+
+---
+
+## **1️⃣ Multithreading**
+
+**Analogy:**
+
+* **Teacher** → Parent process
+* **Students / children** → Threads
+* **Pencils** → CPU cores
+* **Encyclopedia / textbook** → Shared memory / variables
+* **Student notebook** → TCB (Thread Control Block, stores stack, registers, PC)
+
+**How it works:**
+
+* All students (threads) work **inside the same classroom** (process memory).
+* They share the **encyclopedia** (memory), so only one can read/write a page at a time (synchronized).
+* Each student has **their own notebook** to track what they are doing (stack, PC).
+* Teacher can assign **maximum students equal to pencils (CPU cores)** to work in parallel.
+* If more students exist than pencils, they **wait their turn** (ready queue).
+
+**Example:**
+
+* Java program creates 10 threads
+* CPU has 4 cores
+* 4 threads run simultaneously
+* Threads accessing same shared variable **pause only for that variable**
+* Others continue working on different parts
+
+✅ True parallelism on multiple cores
+✅ Synchronization only when accessing shared memory
+
+---
+
+## **2️⃣ Multiprocessing**
+
+**Analogy:**
+
+* **Teacher** → Main program
+* **Students / children** → Processes
+* **Pencils** → CPU cores
+* **Encyclopedia** → Each process has **its own copy of memory**
+* **Student notebook** → PCB (Process Control Block)
+
+**How it works:**
+
+* Each student (process) works **in a separate classroom** (separate memory).
+* They **do not share the encyclopedia** by default → cannot access each other’s memory easily.
+* Each process has its **own notebook** (PCB) with all resources and execution info.
+* Teacher can assign **one student per pencil** (one process per core)
+* If more processes than pencils → extra processes wait
+
+**Example:**
+
+* 4 CPU cores, 4 processes
+* Each core runs 1 process simultaneously
+* Processes run independently, do not share memory
+* Communication requires IPC (sending notes between classrooms)
+
+✅ True parallelism
+✅ No risk of race conditions in memory
+
+---
+
+## **3️⃣ Why Python is not efficient for CPU-bound multithreading**
+
+**Analogy:**
+
+* Python (CPython) has **GIL — Global Interpreter Lock**
+* Even if there are 4 pencils (cores) and 10 students (threads), **only one student can write at a time**, even if others don’t use the encyclopedia.
+* Others **wait their turn**, creating a bottleneck.
+* Safe memory access is guaranteed, but **true parallel execution for CPU-heavy tasks is blocked**.
+
+**Java vs Python (CPU-bound):**
+
+| Feature         | Java Threads         | Python Threads (CPython)         |
+| --------------- | -------------------- | -------------------------------- |
+| Parallelism     | True, max = cores    | Only 1 thread executes at a time |
+| Shared Memory   | Shared among threads | Shared among threads (safe)      |
+| CPU-bound Tasks | Efficient            | Inefficient (GIL limits)         |
+| I/O-bound Tasks | Efficient            | Efficient                        |
+
+✅ Python threads are still useful for **I/O tasks** (network, disk)
+✅ For CPU-heavy work, Python uses **multiprocessing** to bypass GIL
+
+---
+
+## **4️⃣ Final Summary in One Line Each**
+
+* **Multithreading** → Threads share memory, TCB per thread, run in parallel on cores, pause only for shared data.
+* **Multiprocessing** → Processes have separate memory, PCB per process, run independently on cores.
+* **Python GIL** → Only one thread executes at a time → limits CPU-bound efficiency.
+* **Java threads** → True parallel execution → more efficient for CPU-bound tasks.
+
+---
+
+If you want, I can **also make a small visual diagram of this teacher, pencils, students analogy** showing:
+
+1. Multithreading (shared classroom)
+2. Multiprocessing (separate classrooms)
+3. Python GIL effect
+
+It will be **instantly memorable**.
+
+Do you want me to do that?
