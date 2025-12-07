@@ -1,3 +1,14 @@
 Von Neumman Architecture
 <a href="https://github.com/VinayakKDevadiga/Operating-system/blob/main/Screenshot%20from%202025-12-07%2022-24-06.png> Architecture diagram </a>
 Video: https://youtu.be/j8NnE1YeSN0?si=UPmaLCIEINOMIK6k
+
+
+  Process:
+  program which is in an execution:
+
+  New: in the New state, the process is created and its information is prepared by the operating system. Then it moves to the Ready state.
+  Ready state: where it is loaded into main memory and placed inside the ready queue waiting for CPU time. 
+  Running: When the CPU scheduler picks the process, it moves into the Running state and starts executing its instructions. 
+  waiting : If during execution the process needs input/output or some external resource, it goes into the Waiting state until that operation is completed. 
+  Ready: After the required operation completes, the process returns to the Ready state. 
+  Terminated: Finally, when the process finishes execution, it enters the Terminated state, where all resources are released and the process is removed from the system.
