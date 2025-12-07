@@ -12,3 +12,38 @@ Video: https://youtu.be/j8NnE1YeSN0?si=UPmaLCIEINOMIK6k
   waiting : If during execution the process needs input/output or some external resource, it goes into the Waiting state until that operation is completed. 
   Ready: After the required operation completes, the process returns to the Ready state. 
   Terminated: Finally, when the process finishes execution, it enters the Terminated state, where all resources are released and the process is removed from the system.
+
+
+  Comtext swiching:
+  Once a process is created, the CPU will allocate a PCB (Process Control Block) for that process. The PCB stores all important information related to that process such as the memory being used, the registers’ current values, the pointer to the memory block, and the address of the next instruction to be executed. Along with that, it also keeps information like process ID, process state, and CPU scheduling details so that the operating system can manage and restart the process correctly whenever needed.
+  Process ID (PID)
+→ A unique number assigned to the process
+
+✔ Process State
+→ New, Ready, Running, Waiting, Terminated
+
+✔ Program Counter
+→ Holds address of the next instruction to execute
+
+✔ CPU Registers
+→ Values stored when process is paused (context switching)
+
+✔ Memory Information
+→ Base and limit addresses
+→ Page tables / segment tables
+
+✔ CPU Scheduling Information
+→ Priority
+→ Scheduling queues pointer
+→ Time quantum
+
+✔ I/O Information
+→ List of I/O devices assigned
+→ Files opened
+
+✔ Accounting Information
+→ CPU usage time
+→ Execution time
+→ Time limits
+
+When a higher priority process needs to run due to an interrupt or system call, the operating system temporarily stops the currently running process. Before stopping it, the OS saves all the necessary information of the current process into its PCB. This includes register values, program counter, and other execution details. After saving this context, the OS switches to the higher priority process and starts its execution. Once that process finishes or its time slice ends, the OS uses the stored PCB information of the suspended process, restores its context, and resumes its execution from where it was stopped.
